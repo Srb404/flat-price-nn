@@ -10,5 +10,4 @@ data/raw/*
 data/processed/*
 !data/**/.gitkeep
 
-models/
-*.npz
+reports/test_predictions.csv

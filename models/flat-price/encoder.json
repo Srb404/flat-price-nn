@@ -1,0 +1,120 @@
+{
+  "medians": {
+    "squareMeters": 52.63,
+    "rooms": 2.0,
+    "floor": 3.0,
+    "floorCount": 4.0,
+    "buildYear": 1993.0,
+    "latitude": 52.1959144,
+    "longitude": 19.9317678,
+    "centreDistance": 4.3,
+    "monthIndex": 6.0,
+    "log_poiCount": 2.70805020110221,
+    "log_schoolDistance": 0.25696509978972043,
+    "log_clinicDistance": 0.5235443961737654,
+    "log_postOfficeDistance": 0.3314596947976687,
+    "log_kindergartenDistance": 0.22633844221072896,
+    "log_restaurantDistance": 0.20701416938432612,
+    "log_collegeDistance": 0.775648402071689,
+    "log_pharmacyDistance": 0.21430460264700538
+  },
+  "means": {
+    "squareMeters": 56.46788588902377,
+    "rooms": 2.601825529757057,
+    "floor": 3.3271201807090063,
+    "floorCount": 5.469305591837362,
+    "buildYear": 1988.0550117553053,
+    "latitude": 51.99240294310213,
+    "longitude": 19.55477908825529,
+    "centreDistance": 4.5964274628516995,
+    "monthIndex": 5.740768627933064,
+    "log_poiCount": 2.5726262588921265,
+    "log_schoolDistance": 0.312964280115499,
+    "log_clinicDistance": 0.6042774555152738,
+    "log_postOfficeDistance": 0.3797957396939781,
+    "log_kindergartenDistance": 0.2743463541856193,
+    "log_restaurantDistance": 0.2609909631925627,
+    "log_collegeDistance": 0.8184525282737898,
+    "log_pharmacyDistance": 0.27104849035856665
+  },
+  "stds": {
+    "squareMeters": 20.299853902368493,
+    "rooms": 0.8836911570002782,
+    "floor": 2.3396063442605133,
+    "floorCount": 3.3536413567554044,
+    "buildYear": 29.183472602026335,
+    "latitude": 1.2980528052302702,
+    "longitude": 1.7349948212236814,
+    "centreDistance": 2.8467439895130378,
+    "monthIndex": 3.492514511339766,
+    "log_poiCount": 1.0337519423778982,
+    "log_schoolDistance": 0.23010757444711755,
+    "log_clinicDistance": 0.38116170754038875,
+    "log_postOfficeDistance": 0.24435036574214794,
+    "log_kindergartenDistance": 0.21630930000171855,
+    "log_restaurantDistance": 0.22994579312910474,
+    "log_collegeDistance": 0.41985112702361027,
+    "log_pharmacyDistance": 0.2249002144371496
+  },
+  "categories": {
+    "city": [
+      "bialystok",
+      "bydgoszcz",
+      "czestochowa",
+      "gdansk",
+      "gdynia",
+      "katowice",
+      "krakow",
+      "lodz",
+      "lublin",
+      "poznan",
+      "radom",
+      "rzeszow",
+      "szczecin",
+      "warszawa",
+      "wroclaw"
+    ],
+    "type": [
+      "apartmentBuilding",
+      "blockOfFlats",
+      "tenement",
+      "unknown"
+    ],
+    "ownership": [
+      "condominium",
+      "cooperative",
+      "udzia\u0142"
+    ],
+    "buildingMaterial": [
+      "brick",
+      "concreteSlab",
+      "unknown"
+    ],
+    "condition": [
+      "low",
+      "premium",
+      "unknown"
+    ],
+    "hasParkingSpace": [
+      "no",
+      "yes"
+    ],
+    "hasBalcony": [
+      "no",
+      "yes"
+    ],
+    "hasElevator": [
+      "no",
+      "unknown",
+      "yes"
+    ],
+    "hasSecurity": [
+      "no",
+      "yes"
+    ],
+    "hasStorageRoom": [
+      "no",
+      "yes"
+    ]
+  }
+}
