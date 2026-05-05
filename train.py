@@ -9,6 +9,7 @@ import numpy as np
 from flat_price.baselines import CityPricePerM2, LinearRegression
 from flat_price.data import load_listings, split
 from flat_price.features import FeatureEncoder
+from flat_price.location import build_location_table, save_location_table
 from flat_price.metrics import regression_report
 from flat_price.plots import make_figures
 from flat_price.predictor import PricePredictor
@@ -37,6 +38,7 @@ def main() -> None:
 
     predictor = PricePredictor(encoder, args.hidden, args.dropout, seed=args.seed)
     predictor.fit_target(train["price"].to_numpy())
+    predictor.latest_month_index = int(train["monthIndex"].max())
     history = predictor.network.fit(
         x_train,
         predictor.encode_target(train["price"].to_numpy()),
@@ -49,6 +51,7 @@ def main() -> None:
         rng=np.random.default_rng(args.seed),
     )
     predictor.save(args.out)
+    save_location_table(build_location_table(train), args.out / "locations.csv")
 
     y_test = test["price"].to_numpy()
     x_test = encoder.transform(test)

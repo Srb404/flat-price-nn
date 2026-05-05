@@ -6,5 +6,6 @@
   ],
   "dropout": 0.1,
   "target_mean": 13.439674046030767,
-  "target_std": 0.4672500435816287
+  "target_std": 0.4672500435816287,
+  "latest_month_index": 10
 }

@@ -34,6 +34,8 @@ class PricePredictor:
         self.network = build_network(len(encoder.feature_names), hidden, dropout, seed)
         self.target_mean = 0.0
         self.target_std = 1.0
+        # month of the newest listings, used when pricing an apartment "today"
+        self.latest_month_index = 0
 
     def fit_target(self, prices: np.ndarray) -> None:
         log_price = np.log(prices)
@@ -56,6 +58,7 @@ class PricePredictor:
             "dropout": self.dropout,
             "target_mean": self.target_mean,
             "target_std": self.target_std,
+            "latest_month_index": self.latest_month_index,
         }
         (directory / "meta.json").write_text(json.dumps(meta, indent=2))
 
@@ -63,7 +66,10 @@ class PricePredictor:
     def load(cls, directory: str | Path) -> "PricePredictor":
         directory = Path(directory)
         meta = json.loads((directory / "meta.json").read_text())
-        predictor = cls(FeatureEncoder.load(directory / "encoder.json"), meta["hidden"])
+        predictor = cls(
+            FeatureEncoder.load(directory / "encoder.json"), meta["hidden"], meta["dropout"]
+        )
         predictor.network.load(directory / "weights.npz")
         predictor.target_mean, predictor.target_std = meta["target_mean"], meta["target_std"]
+        predictor.latest_month_index = meta["latest_month_index"]
         return predictor
