@@ -4,10 +4,8 @@ __pycache__/
 .venv/
 .pytest_cache/
 .ruff_cache/
-.ipynb_checkpoints/
 
 data/raw/*
-data/processed/*
 !data/**/.gitkeep
 
 reports/test_predictions.csv
