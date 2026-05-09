@@ -1,5 +1,6 @@
 """Gradio demo: python app.py"""
 
+import json
 from pathlib import Path
 
 import gradio as gr
@@ -9,7 +10,8 @@ from flat_price.location import fill_location, load_location_table
 from flat_price.plots import CITY_NAMES
 from flat_price.predictor import PricePredictor
 
-MODEL_DIR = Path(__file__).resolve().parent / "models" / "flat-price"
+ROOT = Path(__file__).resolve().parent
+MODEL_DIR = ROOT / "models" / "flat-price"
 predictor = PricePredictor.load(MODEL_DIR)
 locations = load_location_table(MODEL_DIR / "locations.csv")
 
@@ -24,8 +26,9 @@ CONDITIONS = {"Unknown": None, "Premium": "premium", "Low (needs renovation)": "
 MATERIALS = {"Unknown": None, "Brick": "brick", "Concrete slab": "concreteSlab"}
 AMENITIES = ["Parking space", "Balcony", "Elevator", "Security", "Storage room"]
 AMENITY_COLUMNS = ["hasParkingSpace", "hasBalcony", "hasElevator", "hasSecurity", "hasStorageRoom"]
-# median absolute percentage error of the model on the test set, see reports/metrics.json
-TYPICAL_ERROR = 0.08
+# median absolute percentage error of the model on the test set
+METRICS = json.loads((ROOT / "reports" / "metrics.json").read_text())
+TYPICAL_ERROR = METRICS["neural network"]["MdAPE"] / 100
 
 
 def estimate(
@@ -41,12 +44,13 @@ def estimate(
     centre_distance,
     amenities,
 ):
+    floor = floor or 1
     row = {
         "city": CITIES[city],
         "squareMeters": area,
         "rooms": rooms,
         "floor": floor,
-        "floorCount": max(floor_count, floor),
+        "floorCount": max(floor_count or floor, floor),
         "buildYear": build_year or None,
         "centreDistance": centre_distance,
         "monthIndex": predictor.latest_month_index,
@@ -65,14 +69,14 @@ def estimate(
     return (
         f"## {price:,.0f} PLN\n"
         f"**{price / area:,.0f} PLN/m²** · typical range {low:,.0f} – {high:,.0f} PLN\n\n"
-        "Half of the test set predictions were within ±8% of the listed price."
+        f"Half of the test set predictions were within ±{TYPICAL_ERROR:.0%} of the listed price."
     ).replace(",", " ")
 
 
 with gr.Blocks(title="flat-price-nn") as demo:
     gr.Markdown(
         "# Apartment price estimator\n"
-        "Neural network written from scratch in NumPy, trained on ~93k listings from 15 Polish "
+        "Neural network written from scratch in NumPy, trained on 65k listings from 15 Polish "
         "cities (Otodom, Aug 2023 – Jun 2024)."
     )
     with gr.Row():
@@ -82,7 +86,7 @@ with gr.Blocks(title="flat-price-nn") as demo:
             area = gr.Slider(25, 150, value=55, step=1, label="Area [m²]")
             rooms = gr.Slider(1, 6, value=3, step=1, label="Rooms")
             with gr.Row():
-                floor = gr.Number(value=3, precision=0, minimum=0, label="Floor")
+                floor = gr.Number(value=3, precision=0, minimum=1, label="Floor")
                 floor_count = gr.Number(value=5, precision=0, minimum=1, label="Floors in building")
                 year = gr.Number(value=2005, precision=0, label="Year built (0 = unknown)")
         with gr.Column():
