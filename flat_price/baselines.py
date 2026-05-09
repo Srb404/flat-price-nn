@@ -13,7 +13,8 @@ class CityPricePerM2:
         return self
 
     def predict(self, df: pd.DataFrame) -> np.ndarray:
-        return df["city"].map(self.ppm).fillna(self.fallback).to_numpy() * df["squareMeters"]
+        ppm = df["city"].map(self.ppm).fillna(self.fallback).to_numpy()
+        return ppm * df["squareMeters"].to_numpy()
 
 
 class LinearRegression:

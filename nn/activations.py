@@ -25,7 +25,8 @@ class Tanh(Layer):
 
 class Sigmoid(Layer):
     def forward(self, x: np.ndarray, training: bool = False) -> np.ndarray:
-        self._y = 1.0 / (1.0 + np.exp(-x))
+        # 0.5 * (1 + tanh(x / 2)) equals 1 / (1 + exp(-x)) but does not overflow
+        self._y = 0.5 * (1.0 + np.tanh(0.5 * x))
         return self._y
 
     def backward(self, grad: np.ndarray) -> np.ndarray:

@@ -19,7 +19,7 @@ def load_listings(raw_dir: str | Path = RAW_DIR) -> pd.DataFrame:
         raise FileNotFoundError(f"No apartments_pl_*.csv files in {raw_dir}, see README")
     frames = [pd.read_csv(f).assign(month=f.stem.removeprefix("apartments_pl_")) for f in files]
     df = pd.concat(frames, ignore_index=True)
-    df = df.sort_values("month").drop_duplicates("id", keep="last")
+    df = df.sort_values("month", kind="stable").drop_duplicates("id", keep="last")
 
     months = sorted(df["month"].unique())
     df["monthIndex"] = df["month"].map({m: i for i, m in enumerate(months)})
