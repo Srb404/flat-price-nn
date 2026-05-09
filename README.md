@@ -12,8 +12,8 @@ Test set, 13 945 listings not seen during training or model selection:
 
 | Model | MAE [PLN] | MAPE | Median APE | Within ±10% | R² |
 |---|---:|---:|---:|---:|---:|
-| City median price per m² × area | 147 997 | 18.6% | 15.3% | 33.5% | 0.68 |
-| Linear regression (log price) | 110 875 | 13.7% | 10.7% | 47.4% | 0.79 |
+| City median price per m² × area | 147 997 | 18.7% | 15.3% | 33.4% | 0.68 |
+| Linear regression (log price) | 110 875 | 13.8% | 10.7% | 47.4% | 0.79 |
 | **Neural network** | **80 849** | **10.4%** | **8.0%** | **59.4%** | **0.90** |
 
 <picture>
@@ -57,7 +57,7 @@ and passes $\frac{\partial L}{\partial x}$ to the previous layer. `tests/test_gr
 - **Split:** 70% train, 15% validation (early stopping, hyperparameter choice), 15% test (reported once).
 - **Features (58):** area, rooms, floor, build year, coordinates, distance to the centre and to schools, clinics, pharmacies etc. (log-scaled), listing month, one-hot city, building type, material, condition and amenities, plus flags for missing floor and build year. All statistics are fitted on the training set only.
 - **Target:** standardized $\log(\text{price})$, so the loss penalizes relative rather than absolute errors and expensive apartments do not dominate training.
-- **Architecture:** 58 → 256 → 128 → 64 → 1, ReLU, dropout 0.1, Adam (lr 5e-4, weight decay 1e-4), batch 256, early stopping with patience 15. About 56k parameters, trains in under a minute on a CPU.
+- **Architecture:** 58 → 256 → 128 → 64 → 1, ReLU, dropout 0.1, Adam (lr 5e-4, weight decay 1e-4), batch 256, early stopping with patience 15. About 56k parameters; training stops early after ~100 epochs, about 3 minutes on an 8-core CPU.
 
 ## Demo
 
@@ -75,7 +75,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 pytest
 
-# download the dataset (~50 MB, no Kaggle account needed)
+# download the dataset (17 MB zip, 50 MB unpacked, no Kaggle account needed)
 curl -L -o data/raw/apartments.zip \
   https://www.kaggle.com/api/v1/datasets/download/krzysztofjamroz/apartment-prices-in-poland
 unzip data/raw/apartments.zip -d data/raw && rm data/raw/apartments.zip
